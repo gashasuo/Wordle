@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import GuessedWords from "./GuessedWords";
 
 const alphabet = [
 	"A",
@@ -34,32 +35,38 @@ const alphabet = [
 type KeyboardProps = {
 	guessedLetters: string[];
 	addGuessedLetter: Function;
+	removeGuessedLetter: Function;
+	resetGuessedLetters: Function;
 	guessedWords: string[];
 	addGuessedWord: Function;
-	removeGuessedLetter: Function;
+	addTries: Function;
 };
 
 function Keyboard({
 	addGuessedLetter,
 	guessedLetters,
+	removeGuessedLetter,
+	resetGuessedLetters,
 	guessedWords,
 	addGuessedWord,
-	removeGuessedLetter,
+	addTries,
 }: KeyboardProps) {
 	useEffect(() => {
 		const handleKeydown = (e: KeyboardEvent) => {
 			if (e.key == "Enter") {
 				if (guessedLetters.length == 5) {
 					addGuessedWord(guessedLetters);
+					resetGuessedLetters();
+					addTries();
 				}
 			}
 			if (e.key == "Backspace" && guessedLetters.length) {
 				removeGuessedLetter();
-				console.log(guessedLetters);
 			}
+
 			const letterRegex = /^[a-z]$/;
 			if (letterRegex.test(e.key)) {
-				if (guessedLetters.length > 5) {
+				if (guessedLetters.length > 4) {
 					e.preventDefault();
 					return;
 				}
@@ -84,13 +91,13 @@ function Keyboard({
 					if (letter == "Enter") {
 						if (guessedLetters.length == 5) {
 							addGuessedWord(guessedLetters);
+							resetGuessedLetters();
 						}
 					}
-					if (guessedLetters.length > 5) {
+					if (guessedLetters.length > 4) {
 						return;
 					}
 					addGuessedLetter(letter);
-					console.log(guessedLetters);
 				}
 				return (
 					<button onClick={handleClick} key={letter}>

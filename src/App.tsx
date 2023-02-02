@@ -13,6 +13,7 @@ function App() {
 	const [wordtoGuess, setWordToGuess] = useState(fiveLetterWord);
 	const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 	const [guessedWords, setGuessedWords] = useState<string[]>([]);
+	const [tries, setTries] = useState(0);
 
 	function addGuessedLetter(letter: string) {
 		return setGuessedLetters((prev) => {
@@ -23,24 +24,39 @@ function App() {
 	}
 
 	function removeGuessedLetter() {
-		return setGuessedLetters((prev) => prev.slice(0, prev.length - 1));
+		return setGuessedLetters((prev) => {
+			const updated = prev.slice(0, prev.length - 1);
+			console.log(updated);
+			return updated;
+		});
+	}
+
+	function resetGuessedLetters() {
+		return setGuessedLetters([]);
 	}
 
 	function addGuessedWord(word: string) {
 		return setGuessedWords((prev) => [...prev, word]);
 	}
 
+	function addTries() {
+		return setTries((prev) => prev + 1);
+	}
+
 	return (
 		<div>
-			{wordtoGuess}
-			{guessedLetters}
-			<GuessedWords />
+			Number of tries: {tries}
+			<p>{wordtoGuess}</p>
+			<p>{guessedLetters}</p>
+			<GuessedWords guessedWords={guessedWords} />
 			<Keyboard
 				guessedLetters={guessedLetters}
 				addGuessedLetter={addGuessedLetter}
+				removeGuessedLetter={removeGuessedLetter}
+				resetGuessedLetters={resetGuessedLetters}
 				guessedWords={guessedWords}
 				addGuessedWord={addGuessedWord}
-				removeGuessedLetter={removeGuessedLetter}
+				addTries={addTries}
 			/>
 		</div>
 	);
