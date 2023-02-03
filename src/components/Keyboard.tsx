@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import GuessedWords from "./GuessedWords";
 
 const alphabet = [
 	"A",
@@ -92,12 +91,17 @@ function Keyboard({
 						if (guessedLetters.length == 5) {
 							addGuessedWord(guessedLetters);
 							resetGuessedLetters();
+							addTries();
 						}
 					}
-					if (guessedLetters.length > 4) {
-						return;
+					const letterRegex = /^[A-Z]$/;
+
+					if (letterRegex.test(letter)) {
+						if (guessedLetters.length > 4) {
+							return;
+						}
+						addGuessedLetter(letter);
 					}
-					addGuessedLetter(letter);
 				}
 				return (
 					<button onClick={handleClick} key={letter}>
@@ -105,7 +109,6 @@ function Keyboard({
 					</button>
 				);
 			})}
-			{guessedLetters}
 		</div>
 	);
 }

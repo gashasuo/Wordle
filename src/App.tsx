@@ -47,8 +47,8 @@ function App() {
 		<div>
 			Number of tries: {tries}
 			<p>{wordtoGuess}</p>
-			<p>{guessedLetters}</p>
 			<GuessedWords guessedWords={guessedWords} />
+			<p>{guessedLetters}</p>
 			<Keyboard
 				guessedLetters={guessedLetters}
 				addGuessedLetter={addGuessedLetter}
