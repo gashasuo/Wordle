@@ -9,7 +9,14 @@ function GuessedWords({ guessedWords }: GuessedWordsProps) {
 	return (
 		<div>
 			{guessedWords.map((word) => (
-				<p key={word}>{word}</p>
+				<p key={word}>
+					{word
+						.toString()
+						.split("")
+						.map((letter: string, index) => (
+							<span key={index}>{letter}</span>
+						))}
+				</p>
 			))}
 		</div>
 	);
