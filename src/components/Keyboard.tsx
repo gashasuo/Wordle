@@ -59,7 +59,7 @@ function Keyboard({
 					addTries();
 				}
 			}
-			if (e.key == "Backspace" && guessedLetters.length) {
+			if ((e.key == "Backspace" || e.key == "Delete") && guessedLetters.length) {
 				removeGuessedLetter();
 			}
 

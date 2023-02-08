@@ -1,16 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import randomWords from "random-words";
 
 import GuessedWords from "./components/GuessedWords";
 import Keyboard from "./components/Keyboard";
 
 function App() {
+	useEffect(() => {
+		const generatedWord = generateTargetWord();
+		setWordToGuess(generatedWord);
+	}, []);
+
 	//loop through random-words until we get 5 letter word
-	let fiveLetterWord: string = "";
-	while (fiveLetterWord.length < 5) {
-		fiveLetterWord = randomWords({ exactly: 1, maxLength: 5 })[0].toUpperCase();
+	function generateTargetWord() {
+		let fiveLetterWord = "";
+		while (fiveLetterWord.length < 5) {
+			fiveLetterWord = randomWords({ exactly: 1, maxLength: 5 })[0].toUpperCase();
+		}
+		return fiveLetterWord;
 	}
-	const [wordtoGuess, setWordToGuess] = useState(fiveLetterWord);
+	const [wordToGuess, setWordToGuess] = useState("");
 	const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 	const [guessedWords, setGuessedWords] = useState<string[]>([]);
 	const [tries, setTries] = useState(0);
@@ -46,8 +54,7 @@ function App() {
 	return (
 		<div>
 			Number of tries: {tries}
-			<p>{wordtoGuess}</p>
-			<GuessedWords guessedWords={guessedWords} />
+			<GuessedWords guessedWords={guessedWords} fiveLetterWord={wordToGuess} />
 			<p>{guessedLetters}</p>
 			<Keyboard
 				guessedLetters={guessedLetters}

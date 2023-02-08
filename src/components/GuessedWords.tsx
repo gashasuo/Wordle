@@ -1,21 +1,19 @@
 import React from "react";
-import "../css/GuessedWords.css";
+import Letters from "./Letters";
 
 type GuessedWordsProps = {
 	guessedWords: string[];
+	fiveLetterWord: string;
 };
 
-function GuessedWords({ guessedWords }: GuessedWordsProps) {
+function GuessedWords({ guessedWords, fiveLetterWord }: GuessedWordsProps) {
 	return (
 		<div>
 			{guessedWords.map((word) => (
 				<p key={word}>
-					{word
-						.toString()
-						.split("")
-						.map((letter: string, index) => (
-							<span key={index}>{letter}</span>
-						))}
+					{word.split("").map((letter: string, index) => (
+						<Letters fiveLetterWord={fiveLetterWord} index={index} letter={letter} />
+					))}
 				</p>
 			))}
 		</div>
@@ -23,3 +21,11 @@ function GuessedWords({ guessedWords }: GuessedWordsProps) {
 }
 
 export default GuessedWords;
+
+{
+	/* .toString()
+				.split("")
+						.map((letter: string, index) => (
+						<Letters fiveLetterWord={fiveLetterWord} index={index} letter={letter} />
+						))}  */
+}
