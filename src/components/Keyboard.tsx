@@ -39,6 +39,8 @@ type KeyboardProps = {
 	guessedWords: string[];
 	addGuessedWord: Function;
 	addTries: Function;
+	determineWin: Function;
+	resetNumberCorrect: Function;
 };
 
 function Keyboard({
@@ -49,14 +51,18 @@ function Keyboard({
 	guessedWords,
 	addGuessedWord,
 	addTries,
+	determineWin,
+	resetNumberCorrect,
 }: KeyboardProps) {
 	useEffect(() => {
 		const handleKeydown = (e: KeyboardEvent) => {
 			if (e.key == "Enter") {
 				if (guessedLetters.length == 5) {
-					addGuessedWord(guessedLetters);
+					addGuessedWord(guessedLetters.join(""));
 					resetGuessedLetters();
+					resetNumberCorrect();
 					addTries();
+					determineWin();
 				}
 			}
 			if ((e.key == "Backspace" || e.key == "Delete") && guessedLetters.length) {
