@@ -40,7 +40,7 @@ type KeyboardProps = {
 	addGuessedWord: Function;
 	addTries: Function;
 	determineWin: Function;
-	resetNumberCorrect: Function;
+	win: boolean | null;
 };
 
 function Keyboard({
@@ -52,15 +52,17 @@ function Keyboard({
 	addGuessedWord,
 	addTries,
 	determineWin,
-	resetNumberCorrect,
+	win,
 }: KeyboardProps) {
 	useEffect(() => {
 		const handleKeydown = (e: KeyboardEvent) => {
+			if (win !== null) {
+				return;
+			}
 			if (e.key == "Enter") {
 				if (guessedLetters.length == 5) {
 					addGuessedWord(guessedLetters.join(""));
 					resetGuessedLetters();
-					resetNumberCorrect();
 					addTries();
 					determineWin();
 				}
@@ -90,16 +92,23 @@ function Keyboard({
 		<div>
 			{alphabet.map((letter) => {
 				function handleClick() {
+					if (win !== null) {
+						return;
+					}
+
+					if (letter == "Enter") {
+						if (guessedLetters.length == 5) {
+							addGuessedWord(guessedLetters.join(""));
+							resetGuessedLetters();
+							addTries();
+							determineWin();
+						}
+					}
+
 					if (letter == "Backspace" && guessedLetters.length) {
 						removeGuessedLetter();
 					}
-					if (letter == "Enter") {
-						if (guessedLetters.length == 5) {
-							addGuessedWord(guessedLetters);
-							resetGuessedLetters();
-							addTries();
-						}
-					}
+
 					const letterRegex = /^[A-Z]$/;
 
 					if (letterRegex.test(letter)) {

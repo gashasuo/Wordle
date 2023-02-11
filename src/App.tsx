@@ -22,8 +22,7 @@ function App() {
 	const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 	const [guessedWords, setGuessedWords] = useState<string[]>([]);
 	const [tries, setTries] = useState(0);
-	const [win, setWin] = useState("");
-	const [numberCorrect, setNumberCorrect] = useState(0);
+	const [win, setWin] = useState<boolean | null>(null);
 
 	function addGuessedLetter(letter: string) {
 		return setGuessedLetters((prev) => {
@@ -52,34 +51,31 @@ function App() {
 	function addTries() {
 		return setTries((prev) => prev + 1);
 	}
-
-	function addNumberCorrect() {
-		return setNumberCorrect((prev) => prev + 1);
-	}
-
-	function resetNumberCorrect() {
-		return setNumberCorrect(0);
-	}
-
 	function determineWin() {
-		if (tries == 6) {
-			setWin("You lose!");
+		if (tries == 5) {
+			setWin(false);
 		}
-		if (numberCorrect == 5) {
-			setWin("You win!");
+		if (guessedLetters.join("") == wordToGuess) {
+			setWin(true);
 		}
+	}
+
+	function playAgain() {
+		const generatedWord = generateTargetWord();
+		setWordToGuess(generatedWord);
+		setGuessedLetters([]);
+		setGuessedWords([]);
+		setTries(0);
+		setWin(null);
 	}
 
 	return (
 		<div>
-			{win ? <div>{win} </div> : <div></div>}
+			{win !== null ? <div>{win ? "You win!" : "You lose!"} </div> : <div></div>}
+			{win !== null ? <button onClick={playAgain}>Play Again?</button> : <div></div>}
+			{win !== null ? <div>{`The word was: ${wordToGuess}`} </div> : <div></div>}
 			<p>Number of tries: {tries}</p>
-			<p>{wordToGuess}</p>
-			<GuessedWords
-				guessedWords={guessedWords}
-				fiveLetterWord={wordToGuess}
-				addNumberCorrect={addNumberCorrect}
-			/>
+			<GuessedWords guessedWords={guessedWords} fiveLetterWord={wordToGuess} />
 			<p>{guessedLetters}</p>
 			<Keyboard
 				guessedLetters={guessedLetters}
@@ -90,7 +86,7 @@ function App() {
 				addGuessedWord={addGuessedWord}
 				addTries={addTries}
 				determineWin={determineWin}
-				resetNumberCorrect={resetNumberCorrect}
+				win={win}
 			/>
 		</div>
 	);
