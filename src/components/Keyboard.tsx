@@ -1,4 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import "../css/keyboard.css";
+
+import { AlphabetClasses } from "../types/Types";
 
 const alphabet = [
 	"A",
@@ -39,6 +43,9 @@ type KeyboardProps = {
 	guessedWords: string[];
 	addGuessedWord: Function;
 	addTries: Function;
+	compareWords: Function;
+	alphabetClasses: AlphabetClasses;
+	updateAlphabetClasses: Function;
 	determineWin: Function;
 	win: boolean | null;
 };
@@ -51,6 +58,9 @@ function Keyboard({
 	guessedWords,
 	addGuessedWord,
 	addTries,
+	compareWords,
+	alphabetClasses,
+	updateAlphabetClasses,
 	determineWin,
 	win,
 }: KeyboardProps) {
@@ -61,7 +71,19 @@ function Keyboard({
 			}
 			if (e.key == "Enter") {
 				if (guessedLetters.length == 5) {
-					addGuessedWord(guessedLetters.join(""));
+					let guessedWord = guessedLetters.join("");
+					addGuessedWord(guessedWord);
+					// for (let i = 0; i < guessedWord.length; i++) {
+					// 	const letter = guessedWord[i];
+					// 	const index = i;
+					// 	updateAlphabetClasses(letter, index);
+					// }
+					guessedWords.map((word) => {
+						word.split("").map((letter, index) => {
+							const color = compareWords(letter, index);
+							updateAlphabetClasses(letter, color);
+						});
+					});
 					resetGuessedLetters();
 					addTries();
 					determineWin();
@@ -119,7 +141,11 @@ function Keyboard({
 					}
 				}
 				return (
-					<button onClick={handleClick} key={letter}>
+					<button
+						className={alphabetClasses[letter as keyof AlphabetClasses]}
+						onClick={handleClick}
+						key={letter}
+					>
 						{letter}
 					</button>
 				);

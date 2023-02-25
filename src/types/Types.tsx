@@ -1,0 +1,28 @@
+export interface AlphabetClasses {
+	a: string | undefined;
+	b: string | undefined;
+	c: string | undefined;
+	d: string | undefined;
+	e: string | undefined;
+	f: string | undefined;
+	g: string | undefined;
+	h: string | undefined;
+	i: string | undefined;
+	j: string | undefined;
+	k: string | undefined;
+	l: string | undefined;
+	m: string | undefined;
+	n: string | undefined;
+	o: string | undefined;
+	p: string | undefined;
+	q: string | undefined;
+	r: string | undefined;
+	s: string | undefined;
+	t: string | undefined;
+	u: string | undefined;
+	v: string | undefined;
+	w: string | undefined;
+	x: string | undefined;
+	y: string | undefined;
+	z: string | undefined;
+}
