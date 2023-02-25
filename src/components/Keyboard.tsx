@@ -78,12 +78,21 @@ function Keyboard({
 					// 	const index = i;
 					// 	updateAlphabetClasses(letter, index);
 					// }
-					guessedWords.map((word) => {
-						word.split("").map((letter, index) => {
-							const color = compareWords(letter, index);
-							updateAlphabetClasses(letter, color);
+
+					if (!guessedWords.length) {
+						guessedWords.map((word) => {
+							word.split("").map((letter, index) => {
+								const color = compareWords(letter, index);
+								updateAlphabetClasses(letter, color);
+							});
 						});
+					}
+
+					guessedWord.split("").map((letter, index) => {
+						const color = compareWords(letter, index);
+						updateAlphabetClasses(letter, color);
 					});
+
 					resetGuessedLetters();
 					addTries();
 					determineWin();

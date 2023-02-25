@@ -99,7 +99,7 @@ function App() {
 	}
 
 	function updateAlphabetClasses(letter: string, color: string) {
-		return setAlphabetClasses((prev) => ({ ...alphabetClasses, [letter]: color }));
+		return setAlphabetClasses((prev) => ({ ...prev, [letter]: color }));
 	}
 
 	function determineWin() {
