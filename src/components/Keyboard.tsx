@@ -36,11 +36,13 @@ const alphabet = [
 ];
 
 type KeyboardProps = {
+	setErrorMessage: Function;
 	guessedLetters: string[];
 	addGuessedLetter: Function;
 	removeGuessedLetter: Function;
 	resetGuessedLetters: Function;
 	guessedWords: string[];
+	isRealWord: (word: string) => boolean;
 	addGuessedWord: Function;
 	addTries: Function;
 	compareWords: Function;
@@ -51,11 +53,13 @@ type KeyboardProps = {
 };
 
 function Keyboard({
+	setErrorMessage,
 	addGuessedLetter,
 	guessedLetters,
 	removeGuessedLetter,
 	resetGuessedLetters,
 	guessedWords,
+	isRealWord,
 	addGuessedWord,
 	addTries,
 	compareWords,
@@ -70,8 +74,13 @@ function Keyboard({
 				return;
 			}
 			if (e.key == "Enter") {
+				setErrorMessage(null);
 				if (guessedLetters.length == 5) {
 					let guessedWord = guessedLetters.join("");
+					if (!isRealWord(guessedWord)) {
+						setErrorMessage("That's not a valid word");
+						return;
+					}
 					addGuessedWord(guessedWord);
 					// for (let i = 0; i < guessedWord.length; i++) {
 					// 	const letter = guessedWord[i];

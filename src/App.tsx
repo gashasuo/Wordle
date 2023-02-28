@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import randomWords from "random-words";
+import fiveLetterWordList from "./fiveLetterWordList.json";
 
 import { AlphabetClasses } from "./types/Types";
 
@@ -56,6 +57,7 @@ function App() {
 	const [tries, setTries] = useState(0);
 	const [win, setWin] = useState<boolean | null>(null);
 	const [alphabetClasses, setAlphabetClasses] = useState(alphClasses);
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	function addGuessedLetter(letter: string) {
 		return setGuessedLetters((prev) => {
@@ -83,6 +85,10 @@ function App() {
 
 	function addTries() {
 		return setTries((prev) => prev + 1);
+	}
+
+	function isRealWord(word: string) {
+		return fiveLetterWordList.includes(word.toLowerCase());
 	}
 
 	function compareWords(letter: string, index: number): string {
@@ -126,7 +132,8 @@ function App() {
 			{win !== null ? <div>{win ? "You win!" : "You lose!"} </div> : <div></div>}
 			{win !== null ? <button onClick={playAgain}>Play Again?</button> : <div></div>}
 			{win !== null ? <div>{`The word was: ${wordToGuess}`} </div> : <div></div>}
-			{wordToGuess}
+			{errorMessage && <p>{errorMessage}</p>}
+
 			<p>Number of tries: {tries}</p>
 			<GuessedWords
 				guessedWords={guessedWords}
@@ -137,11 +144,13 @@ function App() {
 			/>
 			<p>{guessedLetters}</p>
 			<Keyboard
+				setErrorMessage={setErrorMessage}
 				guessedLetters={guessedLetters}
 				addGuessedLetter={addGuessedLetter}
 				removeGuessedLetter={removeGuessedLetter}
 				resetGuessedLetters={resetGuessedLetters}
 				guessedWords={guessedWords}
+				isRealWord={isRealWord}
 				addGuessedWord={addGuessedWord}
 				addTries={addTries}
 				compareWords={compareWords}
