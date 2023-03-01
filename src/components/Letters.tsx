@@ -5,20 +5,10 @@ import { AlphabetClasses } from "../types/Types";
 type LetterProps = {
 	letter: string;
 	index: number;
-	fiveLetterWord: string;
-	compareWords: Function;
-	alphabetClasses: AlphabetClasses;
-	setAlphabetClasses: Function;
+	compareWords: (letter: string, index: number) => string;
 };
 
-function Letters({
-	letter,
-	index,
-	fiveLetterWord,
-	compareWords,
-	alphabetClasses,
-	setAlphabetClasses,
-}: LetterProps) {
+function Letters({ letter, index, compareWords }: LetterProps) {
 	return (
 		<span className={`${compareWords(letter, index)}`} key={index}>
 			{letter}

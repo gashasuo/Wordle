@@ -5,7 +5,7 @@ import { AlphabetClasses } from "../types/Types";
 type GuessedWordsProps = {
 	guessedWords: string[];
 	fiveLetterWord: string;
-	compareWords: Function;
+	compareWords: (letter: string, index: number) => string;
 	alphabetClasses: AlphabetClasses;
 	setAlphabetClasses: Function;
 };

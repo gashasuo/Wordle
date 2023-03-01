@@ -60,19 +60,10 @@ function App() {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	function addGuessedLetter(letter: string) {
-		return setGuessedLetters((prev) => {
-			const updated = [...prev, letter];
-			console.log(updated);
-			return updated;
-		});
+		return setGuessedLetters((prev) => [...prev, letter]);
 	}
-
 	function removeGuessedLetter() {
-		return setGuessedLetters((prev) => {
-			const updated = prev.slice(0, prev.length - 1);
-			console.log(updated);
-			return updated;
-		});
+		return setGuessedLetters((prev) => prev.slice(0, prev.length - 1));
 	}
 
 	function resetGuessedLetters() {

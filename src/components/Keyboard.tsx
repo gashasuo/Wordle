@@ -38,17 +38,17 @@ const alphabet = [
 type KeyboardProps = {
 	setErrorMessage: Function;
 	guessedLetters: string[];
-	addGuessedLetter: Function;
-	removeGuessedLetter: Function;
-	resetGuessedLetters: Function;
+	addGuessedLetter: (letter: string) => void;
+	removeGuessedLetter: () => void;
+	resetGuessedLetters: () => void;
 	guessedWords: string[];
 	isRealWord: (word: string) => boolean;
-	addGuessedWord: Function;
-	addTries: Function;
-	compareWords: Function;
+	addGuessedWord: (word: string) => void;
+	addTries: () => void;
+	compareWords: (letter: string, index: number) => string;
 	alphabetClasses: AlphabetClasses;
-	updateAlphabetClasses: Function;
-	determineWin: Function;
+	updateAlphabetClasses: (letter: string, color: string) => void;
+	determineWin: () => void;
 	win: boolean | null;
 };
 
@@ -58,7 +58,6 @@ function Keyboard({
 	guessedLetters,
 	removeGuessedLetter,
 	resetGuessedLetters,
-	guessedWords,
 	isRealWord,
 	addGuessedWord,
 	addTries,
@@ -74,29 +73,27 @@ function Keyboard({
 				return;
 			}
 			if (e.key == "Enter") {
-				setErrorMessage(null);
 				if (guessedLetters.length == 5) {
 					let guessedWord = guessedLetters.join("");
 					if (!isRealWord(guessedWord)) {
 						setErrorMessage("That's not a valid word");
 						return;
 					}
+					//add guessedWord to array of guessedWords
 					addGuessedWord(guessedWord);
-					// for (let i = 0; i < guessedWord.length; i++) {
-					// 	const letter = guessedWord[i];
-					// 	const index = i;
-					// 	updateAlphabetClasses(letter, index);
+
+					//code below now seems unnecessary
+					// -----------------------------
+					// if (!guessedWords.length) {
+					// 	guessedWords.map((word) => {
+					// 		word.split("").map((letter, index) => {
+					// 			const color = compareWords(letter, index);
+					// 			updateAlphabetClasses(letter, color);
+					// 		});
+					// 	});
 					// }
 
-					if (!guessedWords.length) {
-						guessedWords.map((word) => {
-							word.split("").map((letter, index) => {
-								const color = compareWords(letter, index);
-								updateAlphabetClasses(letter, color);
-							});
-						});
-					}
-
+					//updates keyboard to match letters on guesses
 					guessedWord.split("").map((letter, index) => {
 						const color = compareWords(letter, index);
 						updateAlphabetClasses(letter, color);
@@ -109,6 +106,7 @@ function Keyboard({
 			}
 			if ((e.key == "Backspace" || e.key == "Delete") && guessedLetters.length) {
 				removeGuessedLetter();
+				setErrorMessage(null);
 			}
 
 			const letterRegex = /^[a-z]$/;
@@ -138,7 +136,27 @@ function Keyboard({
 
 					if (letter == "Enter") {
 						if (guessedLetters.length == 5) {
-							addGuessedWord(guessedLetters.join(""));
+							let guessedWord = guessedLetters.join("");
+							if (!isRealWord(guessedWord)) {
+								setErrorMessage("That's not a valid word");
+								return;
+							}
+							addGuessedWord(guessedWord);
+
+							// if (!guessedWords.length) {
+							// 	guessedWords.map((word) => {
+							// 		word.split("").map((letter, index) => {
+							// 			const color = compareWords(letter, index);
+							// 			updateAlphabetClasses(letter, color);
+							// 		});
+							// 	});
+							// }
+
+							guessedWord.split("").map((letter, index) => {
+								const color = compareWords(letter, index);
+								updateAlphabetClasses(letter, color);
+							});
+
 							resetGuessedLetters();
 							addTries();
 							determineWin();
@@ -147,6 +165,7 @@ function Keyboard({
 
 					if (letter == "Backspace" && guessedLetters.length) {
 						removeGuessedLetter();
+						setErrorMessage(null);
 					}
 
 					const letterRegex = /^[A-Z]$/;
