@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import randomWords from "random-words";
 import fiveLetterWordList from "./fiveLetterWordList.json";
 
+import "./css/app.css";
+
 import { AlphabetClasses } from "./types/Types";
 
 import GuessedWords from "./components/GuessedWords";
@@ -119,21 +121,29 @@ function App() {
 	}
 
 	return (
-		<div>
-			{win !== null ? <div>{win ? "You win!" : "You lose!"} </div> : <div></div>}
-			{win !== null ? <button onClick={playAgain}>Play Again?</button> : <div></div>}
-			{win !== null ? <div>{`The word was: ${wordToGuess}`} </div> : <div></div>}
-			{errorMessage && <p>{errorMessage}</p>}
+		<body>
+			<div className="textDisplay">
+				{errorMessage && <p>{errorMessage}</p>}
+				<div>Number of tries: {tries}</div>
+				{win !== null ? <div>{win ? "You win!" : "You lose!"} </div> : <div></div>}
+				{win !== null ? <button onClick={playAgain}>Play Again?</button> : <div></div>}
+				{win !== null ? <div>{`The word was: ${wordToGuess}`} </div> : <div></div>}
+			</div>
 
-			<p>Number of tries: {tries}</p>
-			<GuessedWords
-				guessedWords={guessedWords}
-				fiveLetterWord={wordToGuess}
-				compareWords={compareWords}
-				alphabetClasses={alphabetClasses}
-				setAlphabetClasses={setAlphabetClasses}
-			/>
-			<p>{guessedLetters}</p>
+			<div className="wordsContainer">
+				<GuessedWords
+					guessedWords={guessedWords}
+					fiveLetterWord={wordToGuess}
+					compareWords={compareWords}
+					alphabetClasses={alphabetClasses}
+					setAlphabetClasses={setAlphabetClasses}
+				/>
+				<p className="guessedLetters">
+					{guessedLetters.map((letter: string) => (
+						<span>{letter}</span>
+					))}
+				</p>
+			</div>
 			<Keyboard
 				setErrorMessage={setErrorMessage}
 				guessedLetters={guessedLetters}
@@ -150,7 +160,7 @@ function App() {
 				determineWin={determineWin}
 				win={win}
 			/>
-		</div>
+		</body>
 	);
 }
 export default App;

@@ -18,19 +18,12 @@ function GuessedWords({
 	setAlphabetClasses,
 }: GuessedWordsProps) {
 	return (
-		<div>
+		<div className="guessedWords">
 			{guessedWords
 				? guessedWords.map((word, index) => (
-						<p key={index}>
+						<p className="spansContainer" key={index}>
 							{word.split("").map((letter: string, index: number) => (
-								<Letters
-									fiveLetterWord={fiveLetterWord}
-									index={index}
-									letter={letter}
-									compareWords={compareWords}
-									alphabetClasses={alphabetClasses}
-									setAlphabetClasses={setAlphabetClasses}
-								/>
+								<Letters index={index} letter={letter} compareWords={compareWords} />
 							))}
 						</p>
 				  ))

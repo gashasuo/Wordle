@@ -1,7 +1,3 @@
-import "../css/letters.css";
-
-import { AlphabetClasses } from "../types/Types";
-
 type LetterProps = {
 	letter: string;
 	index: number;

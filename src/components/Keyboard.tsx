@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import "../css/keyboard.css";
-
 import { AlphabetClasses } from "../types/Types";
 
 const alphabet = [
