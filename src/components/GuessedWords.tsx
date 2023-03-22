@@ -18,6 +18,7 @@ function GuessedWords({
 	setAlphabetClasses,
 }: GuessedWordsProps) {
 	return (
+		//takes guessedWords array (which has all the guessed words so far) and splits each word out and each word into separate letters in the letters component
 		<div className="guessedWords">
 			{guessedWords
 				? guessedWords.map((word, index) => (

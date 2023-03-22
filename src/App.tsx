@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import randomWords from "random-words";
 import fiveLetterWordList from "./fiveLetterWordList.json";
 
 import "./css/app.css";
@@ -11,17 +10,14 @@ import Keyboard from "./components/Keyboard";
 
 function App() {
 	useEffect(() => {
-		const generatedWord = generateTargetWord();
-		setWordToGuess(generatedWord);
+		setWordToGuess(generateTargetWord());
 	}, []);
 
 	//loop through random-words until we get 5 letter word
 	function generateTargetWord() {
-		let fiveLetterWord = "";
-		while (fiveLetterWord.length < 5) {
-			fiveLetterWord = randomWords({ exactly: 1, maxLength: 5 })[0].toUpperCase();
-		}
-		return fiveLetterWord;
+		let wordList: string[] = fiveLetterWordList;
+		let targetWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
+		return targetWord;
 	}
 
 	const alphClasses: AlphabetClasses = {
@@ -91,10 +87,15 @@ function App() {
 			wordToGuess.indexOf(letter) !== -1 &&
 			wordToGuess.indexOf(letter) !== index
 		) {
-			return "yellow";
-		} else {
-			return "red";
+			// Check if the letter is present in the word at any index other than the current index
+			for (let i = index; i < 5 - index; i++) {
+				const otherIndex = wordToGuess.indexOf(letter, i);
+				if (otherIndex !== -1) {
+					return "yellow";
+				}
+			}
 		}
+		return "red";
 	}
 
 	function updateAlphabetClasses(letter: string, color: string) {
@@ -125,11 +126,11 @@ function App() {
 			<div className="textDisplay">
 				{errorMessage && <p>{errorMessage}</p>}
 				<div>Number of tries: {tries}</div>
-				{win !== null ? <div>{win ? "You win!" : "You lose!"} </div> : <div></div>}
-				{win !== null ? <button onClick={playAgain}>Play Again?</button> : <div></div>}
-				{win !== null ? <div>{`The word was: ${wordToGuess}`} </div> : <div></div>}
+				{win !== null ? <div>{win ? "You win!" : "You lose!"} </div> : null}
+				{win !== null ? <button onClick={playAgain}>Play Again?</button> : null}
+				{/* {win !== null ? <div>{`The word was: ${wordToGuess}`} </div> : null} */}
 			</div>
-
+			<div>{`The word was: ${wordToGuess}`} </div>
 			<div className="wordsContainer">
 				<GuessedWords
 					guessedWords={guessedWords}

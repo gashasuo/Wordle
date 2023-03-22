@@ -5,6 +5,7 @@ type LetterProps = {
 };
 
 function Letters({ letter, index, compareWords }: LetterProps) {
+	//takes each letter and runs compareWords in the className to determine what color it displays
 	return (
 		<span className={`${compareWords(letter, index)}`} key={index}>
 			{letter}
